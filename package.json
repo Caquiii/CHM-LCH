@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "minecraft-launcher-core": "^3.18.1",
+    "minecraft-launcher-js": "^0.1.0",
     "msmc": "^5.0.5"
   },
   "name": "chm-lch",
@@ -9,7 +9,7 @@
   "main": "./src/main.js",
   "scripts": {
     "test": "echo when pruebas",
-    "run": "node ./src/main.js"
+    "start": "node ./src/main.js"
   },
   "repository": {
     "type": "git",

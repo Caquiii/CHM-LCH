@@ -1,21 +1,44 @@
-const { Client } = require('minecraft-launcher-core');
-const { Auth } = require('msmc');
+const { MinecraftLauncher } = require('minecraft-launcher-js');
+//const { Auth } = require('msmc');
 
-const launcher = new Client();
+const launcher = new MinecraftLauncher({
 
-let opts = {
-    root: "./minecraft",
-    version: {
-        number: "1.20.1",
-        type: "release"
+    authentication: {
+        name: "NegroMiguel"
     },
     memory: {
-        min: "1G",
-        max: "2G"        
-    }
+        max: 2048,
+        min: 1024
+    },
+    version: {
+        number: "1.21.3",
+        type: "release"
+    },
+    gameRoot: "./game/minecraft"
+
+});
+
+async function gameStart() {
+    
+    launcher.on('download_start', (e) => {
+        console.log(
+          `Descargando: ${e.files}, ${e.totalSize / 1024} KB`,
+        );
+      });
+
+    launcher.on('download_progress', (e) => {
+        console.log(`Progreso: ${e.progress}% | Archivo ${e.progressFiles} de ${e.totalFiles} | Tamaño ${(e.progressSize / 1024).toFixed(0)}KB / ${(e.totalSize / 1024).toFixed(0)}KB`);
+    });
+    
+    launcher.on('download_end', (e) => {
+    console.log(`Terminado: error=${e.error},task=${e.name}`);
+    });
+
+    launcher.prepare();
+
+    await launcher.download();
+    
+    await launcher.start();
 }
 
-launcher.launch(opts);
-
-launcher.on('debug', (e) => console.log(e));
-launcher.on('data', (e) => console.log(e));
+gameStart();
