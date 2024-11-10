@@ -2,7 +2,7 @@
  
 > "El flojo trabaja como quíntuple mk" -Probablemente otro random
 
-## 🌟 ¿Qué es? 🌟
+### 🌟 ¿Qué es? 🌟
 - Launcher de Minecraft con gestor de versiones + actualizador de modpacks automático.
 
 ### 🥺 ¿Qué puede (podrá) hacer? 🥺
