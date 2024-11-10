@@ -1,14 +1,15 @@
 {
   "dependencies": {
-    "minecraft-launcher-core": "^3.18.1"
+    "minecraft-launcher-core": "^3.18.1",
+    "msmc": "^5.0.5"
   },
   "name": "chm-lch",
   "description": "Custom Minecraft launcher (maybe) for a (or multiple) server(s)",
   "version": "0.0.1",
-  "main": "main.js",
-  "devDependencies": {},
+  "main": "./src/main.js",
   "scripts": {
-    "test": "echo when pruebas"
+    "test": "echo when pruebas",
+    "run": "node ./src/main.js"
   },
   "repository": {
     "type": "git",
