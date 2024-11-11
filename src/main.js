@@ -1,20 +1,23 @@
 const { MinecraftLauncher } = require('minecraft-launcher-js');
+const path = require('path');
+const launcherArgs = require('.././config/launcherargs.json');
+const versionOpts = require('.././config/versionopts.json');
 //const { Auth } = require('msmc');
 
 const launcher = new MinecraftLauncher({
 
     authentication: {
-        name: "NegroMiguel"
+        name: launcherArgs.userName
     },
     memory: {
-        max: 2048,
-        min: 1024
+        max: launcherArgs.maxMem,
+        min: launcherArgs.minMem
     },
     version: {
-        number: "1.21.3",
-        type: "release"
+        number: versionOpts.versionNumber,
+        type: versionOpts.versionType
     },
-    gameRoot: "./game/minecraft"
+    gameRoot: path.join(process.env.APPDATA, '/chmlch/minecraft')
 
 });
 
@@ -31,7 +34,7 @@ async function gameStart() {
     });
     
     launcher.on('download_end', (e) => {
-    console.log(`Terminado: error=${e.error},task=${e.name}`);
+        console.log(`Terminado: error=${e.error},task=${e.name}`);
     });
 
     launcher.prepare();
