@@ -1,0 +1,17 @@
+{
+    "j21": {
+        "dw": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk-jre/21.0.5+11/openlogic-openjdk-jre-21.0.5+11-windows-x64.zip",
+        "path": ".././java/java21",
+        "folder": "openlogic-openjdk-jre-21.0.5+11-windows-x64"
+    },
+    "j17": {
+        "dw": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk-jre/17.0.13+11/openlogic-openjdk-jre-17.0.13+11-windows-x64.zip",
+        "path": ".././java/java17",
+        "folder": "openlogic-openjdk-jre-17.0.13+11-windows-x64"
+    },
+    "j8": {
+        "dw": "https://builds.openlogic.com/downloadJDK/openlogic-openjdk-jre/8u432-b06/openlogic-openjdk-jre-8u432-b06-windows-x64.zip",
+        "path": ".././java/java8",
+        "folder": "openlogic-openjdk-jre-8u432-b06-windows-x64"
+    }
+}
