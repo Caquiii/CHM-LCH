@@ -1,14 +1,12 @@
-const { MinecraftLauncher } = require('minecraft-launcher-js');
-const wget = require('wget-improved');
+const { Mojang, Launch } = require('minecraft-java-core')
 const unzip = require('extract-zip');
 const fs = require('fs');
-const javaSrc = require('.././config/javasrc.json');
+const javaSrc = require('.././config/javasrc.json') 
 const path = require('path');
-const launcherArgs = require('.././config/launcherargs.json');
-const versionOpts = require('.././config/versionopts.json');
-//const { Auth } = require('msmc');
+const launcherArgs = require('.././config/launcherargs.json')
+const versionOpts  = require('.././config/versionopts.json') 
+const semver = require('semver');
 
-const semver = require('semver')
 const parsedVersion = semver.coerce(versionOpts.versionNumber)
 
 let targetJava = null;
@@ -18,15 +16,23 @@ if (semver.lte(parsedVersion, '1.16.5')) {
     targetJava = javaSrc.j17;
 } else {
     targetJava = javaSrc.j21;
-} 
+}
 
-downloadZip(targetJava.dw)
-.then(async () => {
-    await extractJava(path.join(__dirname, targetJava.path, `${targetJava.folder}.zip`));
+
+if (!fs.existsSync(path.join(__dirname, targetJava.path))) {
+    console.log('Java no existe.')
+
+    downloadZip(targetJava.dw).then(async () => {
+        await extractJava(path.join(__dirname, targetJava.path, `${targetJava.folder}.zip`));
+        gameStart()
+    })
+} else {
+    console.log('Java existe.')
     gameStart()
-})
+}
 
 async function downloadZip(url) {
+    console.log('Descargando java...')
     let targetPath = path.join(__dirname, targetJava.path, `${targetJava.folder}.zip`)
 
     if (!fs.existsSync(path.dirname(targetPath))) fs.mkdirSync(path.dirname(targetPath))
@@ -36,11 +42,6 @@ async function downloadZip(url) {
     fs.writeFileSync(targetPath, new Uint8Array(buffer))
 }
 
-/* TODO:
-javaDownload.on('progress', function(progress) {
-    typeof progress === 'number'
-}); */
-
 async function extractJava(zipPath) {
     console.log("Extrayendo Java...");
     await unzip(zipPath, { dir: path.join(__dirname, targetJava.path) });
@@ -49,47 +50,68 @@ async function extractJava(zipPath) {
 }
 
 
-const launcher = new MinecraftLauncher({
-
-    authentication: {
-        name: launcherArgs.userName
-    },
-    memory: {
-        max: launcherArgs.maxMem,
-        min: launcherArgs.minMem
-    },
-    version: {
-        number: versionOpts.versionNumber,
-        type: versionOpts.versionType
-    },
-    gameRoot: path.join(process.env.APPDATA, '/chmlch/minecraft'),
-    javaPath: path.join(__dirname, targetJava.path, targetJava.folder, './bin/javaw.exe')
-
-});
-
+const launcher = new Launch();
 async function gameStart() {
-    
-    launcher.on('download_start', (e) => {
-        console.log(
-          `Descargando: ${e.files}, ${e.totalSize / 1024} KB`,
-        );
-      });
+    var opts = {
+        authenticator: await Mojang.login(launcherArgs.userName),
+        version: versionOpts.versionNumber,
+        memory: {
+            max: launcherArgs.maxMem,
+            min: launcherArgs.minMem
+        },
+        path: path.join(process.env.APPDATA, '/chmlch/minecraft'),
+        java: {
+            path: path.join(__dirname, targetJava.path, targetJava.folder, './bin/javaw.exe'),
+            type: 'jre'
+        },
+        loader: versionOpts.loader,
+        JVM_ARGS: [
+            '-Dminecraft.api.auth.host=https://chimbaland.4.pronto/nunca_muere',
+            '-Dminecraft.api.account.host=https://chimbaland.4.pronto/nunca_muere',
+            '-Dminecraft.api.session.host=https://chimbaland.4.pronto/nunca_muere',
+            "-Dminecraft.api.services.host=https://chimbaland.4.pronto/nunca_muere"
+        ],
+        instance: "Chimbaland3"
+    }
 
-    launcher.on('download_progress', (e) => {
-        console.log(`Progreso: ${e.progress}% | Archivo ${e.progressFiles} de ${e.totalFiles} | Tamaño ${(e.progressSize / 1024).toFixed(0)}KB / ${(e.totalSize / 1024).toFixed(0)}KB`);
+    await launcher.Launch(opts)
+
+    launcher.on('extract', extract => {
+        console.log(extract);
     });
-    
-    launcher.on('download_end', (e) => {
-        console.log(`Terminado: error=${e.error},task=${e.name}`);
+
+    launcher.on('progress', (progress, size, element) => {
+        process.stdout.write(`Downloading ${element} ${Math.round((progress / size) * 100)}%\r`);
     });
 
-    launcher.prepare();
+    launcher.on('check', (progress, size, element) => {
+        process.stdout.write(`Checking ${element} ${Math.round((progress / size) * 100)}%\r`);
+    });
 
-    await launcher.download();
-    
-    await launcher.start();
-}
+    launcher.on('estimated', (time) => {
+        let hours = Math.floor(time / 3600);
+        let minutes = Math.floor((time - hours * 3600) / 60);
+        let seconds = Math.floor(time - hours * 3600 - minutes * 60);
+        process.stdout.write(`${hours}h ${minutes}m ${seconds}s\r`);
+    })
 
-module.exports = {
-    gameStart
+    launcher.on('speed', (speed) => {
+        process.stdout.write(`${(speed / 1067008).toFixed(2)} Mb/s\r`)
+    })
+
+    launcher.on('patch', patch => {
+        console.log(patch);
+    });
+
+    launcher.on('data', (e) => {
+        console.log(e);
+    })
+
+    launcher.on('close', code => {
+        console.log(code);
+    });
+
+    launcher.on('error', err => {
+        console.log(err);
+    });
 }

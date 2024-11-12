@@ -1,5 +1,10 @@
 {
     "versionNumber": "1.16.5",
-    "versionType": "release"
+    "loader": {
+        "path": "",
+        "type": "forge",
+        "build": "latest",
+        "enable": true
+    } 
 }
 

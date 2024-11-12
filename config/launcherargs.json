@@ -1,6 +1,6 @@
 {
-    "maxMem": "2048",
-    "minMem": "1024",
+    "maxMem": "4096m",
+    "minMem": "1024m",
     "userName": "NegroMiguel"
 }
 
