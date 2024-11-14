@@ -19,7 +19,7 @@ class AuthenticationService {
   }
 
   async refresh_token(refresh_token) {
-    var endpoint = ApiUri + 'discord/refresh_token'
+    var endpoint = this.ApiUri + 'discord/refresh_token'
     var response = await superagent
       .get(endpoint)
       .query({ refresh_token })
@@ -29,7 +29,7 @@ class AuthenticationService {
   }
 
   async revoke_token(access_token) {
-    var endpoint = ApiUri + 'discord/revoke_token'
+    var endpoint = this.ApiUri + 'discord/revoke_token'
     var response = await superagent
       .get(endpoint)
       .query({ access_token })

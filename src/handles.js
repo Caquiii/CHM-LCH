@@ -1,5 +1,4 @@
 const { ipcMain } = require('electron')
-const keytar = require('keytar')
 const { Windows, Authentication, Discord } = require('./services')
 
 ipcMain.handle('app:discordLogin', () => {
@@ -25,9 +24,7 @@ ipcMain.handle('app:discordLogin', () => {
     var code = queryParams.get('code')
 
     var authData = await Authentication.exchange_code(code)
-
-    await keytar.setPassword('CHM_DISCORD', 'access_token', authData.access_token)
-    await keytar.setPassword('CHM_DISCORD', 'refresh_token', authData.refresh_token)
+    await Discord.saveAuthData(authData)
 
     discWin.close()
     discWin.getParentWindow().webContents.send('discordWindowLogin')
