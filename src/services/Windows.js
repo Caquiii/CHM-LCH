@@ -1,5 +1,5 @@
 //** https://github.com/Jleguim/briggs-video-compressor/blob/main/src/Services/WindowsService.js */
-const { app, BrowserWindow } = require('electron')
+const { BrowserWindow } = require('electron')
 const path = require('path')
 
 class WindowsService {
@@ -8,12 +8,14 @@ class WindowsService {
     this.mainWindow = null
     this.windowSettings = {
       title: 'CHM-LCH',
-      width: 250,
-      height: 350,
+      width: 986,
+      height: 740,
       autoHideMenuBar: true,
       resizable: false,
       show: false,
-      webPreferences: { preload: path.resolve(this.viewsPath, 'preload.js') },
+      frame: false,
+      transparent: true,
+      webPreferences: { preload: path.resolve(this.viewsPath, './js/preload.js') },
     }
   }
 

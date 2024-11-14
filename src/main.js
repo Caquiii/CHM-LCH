@@ -18,5 +18,4 @@ app.once('ready', async () => {
   }
 
   await Discord.saveAuthData(authData)
-  Windows.mainWindow.webContents.send('discordWindowLogin')
 })

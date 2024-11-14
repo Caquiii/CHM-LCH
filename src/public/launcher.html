@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./css/fontawesome.min.css" />
+    <link rel="stylesheet" href="./css/tailwind.css" />
+
+    <title>CHM-LCH</title>
+  </head>
+  <body>
+    <div class="h-screen">
+      <div class="relative w-full h-full rounded-3xl overflow-hidden bg-black">
+        <!-- Background -->
+        <div class="absolute inset-0">
+          <img src="./img/bg-mc.jpg" class="w-full h-full object-cover opacity-25" />
+        </div>
+
+        <!-- Top navigation -->
+        <div class="flex absolute top-0 left-0 w-full px-6 py-6 movable">
+          <div class="flex gap-4 flex-grow">
+            <i id="_closeBtn" class="fa-solid fa-circle text-red-500"></i>
+            <i id="_miniBtn" class="fa-solid fa-circle text-amber-500"></i>
+            <i id="_maxBtn" class="fa-solid fa-circle text-lime-500"></i>
+          </div>
+
+          <div class="w-16 h-16 overflow-hidden rounded-full flex items-center justify-center">
+            <img id="_userImg" alt="User Image" class="" />
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative flex flex-col items-center justify-center h-full w-full">
+          <div class="flex flex-col items-center justify-center h-full w-full">
+            <img src="./img/title-mc.png" />
+            <button class="px-32 py-6 rounded-3xl bg-[#D9D9D9] text-6xl font-bold">JUGAR</button>
+          </div>
+          <div class="flex w-full bg-[#D9D9D9] px-6 py-4">
+            <div class="flex items-center gap-2 grow">
+              <img
+                src="https://cdn.discordapp.com/icons/467730051622764565/650d2bcb9c960ded7d8b58b8e784e216.webp?size=96"
+                class="rounded-full w-12 h-12" />
+              <img
+                src="https://cdn.discordapp.com/icons/467730051622764565/650d2bcb9c960ded7d8b58b8e784e216.webp?size=96"
+                class="rounded-full w-12 h-12" />
+              <img
+                src="https://cdn.discordapp.com/icons/467730051622764565/650d2bcb9c960ded7d8b58b8e784e216.webp?size=96"
+                class="rounded-full w-12 h-12" />
+              <img
+                src="https://cdn.discordapp.com/icons/467730051622764565/650d2bcb9c960ded7d8b58b8e784e216.webp?size=96"
+                class="rounded-full w-12 h-12" />
+            </div>
+            <div class="border-2 rounded-full border-black w-12 h-12 flex items-center justify-center">
+              <i class="fa-solid fa-plus text-2xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/navbar.js"></script>
+    <script src="./js/launcher.js"></script>
+  </body>
+</html>

@@ -1,13 +1,22 @@
-const { ipcMain } = require('electron')
-const { Windows, Authentication, Discord } = require('./services')
+const { ipcMain, app } = require('electron')
+const { Windows, Discord, Authentication } = require('./services')
 
-ipcMain.handle('app:discordLogin', () => {
+ipcMain.handle('app:close', () => app.exit())
+ipcMain.handle('app:minimize', () => Windows.mainWindow.minimize())
+ipcMain.handle('app:maximize', () => {
+  if (Windows.mainWindow.isMaximized()) {
+    Windows.mainWindow.unmaximize()
+  } else {
+    Windows.mainWindow.maximize()
+  }
+})
+
+ipcMain.handle('discord:promptLogin', () => {
   var discWin = Windows.createModalWindow({
     width: 510,
     height: 700,
     resizable: false,
   })
-
   discWin.removeMenu()
   discWin.loadURL(Authentication.ApiUri + 'discord/redirect')
 
@@ -27,7 +36,7 @@ ipcMain.handle('app:discordLogin', () => {
     await Discord.saveAuthData(authData)
 
     discWin.close()
-    discWin.getParentWindow().webContents.send('discordWindowLogin')
+    discWin.getParentWindow().loadFile(Windows.viewsPath + '/launcher.html')
   })
 })
 

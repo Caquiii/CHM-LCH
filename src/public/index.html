@@ -1,13 +1,49 @@
-<input type="button" value="abrir" id="abrirBtn" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script>
-  var abrirBtn = document.getElementById('abrirBtn')
-  abrirBtn.addEventListener('click', () => {
-    window.app.promptDiscordLogin()
-  })
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./css/fontawesome.min.css" />
+    <link rel="stylesheet" href="./css/tailwind.css" />
 
-  window.app.handleDiscordLogin(async () => {
-    var body = JSON.stringify(await window.discord.getUser(), 0, 3)
-    document.write(body)
-  })
-</script>
+    <title>CHM-LCH</title>
+  </head>
+  <body>
+    <div class="h-screen">
+      <div class="relative w-full h-full rounded-3xl overflow-hidden bg-black">
+        <!-- Background -->
+        <div class="absolute inset-0">
+          <img src="./img/bg-mc.jpg" class="w-full h-full object-cover opacity-25" />
+        </div>
+
+        <!-- Top navigation -->
+        <div class="flex absolute top-0 left-0 w-full px-6 py-6 movable">
+          <div class="flex gap-4 flex-grow">
+            <i id="_closeBtn" class="fa-solid fa-circle text-red-500"></i>
+            <i id="_miniBtn" class="fa-solid fa-circle text-amber-500"></i>
+            <i id="_maxBtn" class="fa-solid fa-circle text-lime-500"></i>
+          </div>
+
+          <div class="w-16 h-16 overflow-hidden rounded-full flex items-center justify-center">
+            <img id="_userImg" alt="User Image" class="hidden" />
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative flex flex-col items-center justify-center h-full w-full">
+          <button
+            id="_discordBtn"
+            class="bg-[#5865F2] px-4 py-2 rounded-md text-white text-base flex items-center justify-center gap-2">
+            <i class="fa-brands fa-discord text-xl"></i>
+            Sign in with Discord
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/navbar.js"></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>
