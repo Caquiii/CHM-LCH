@@ -5,4 +5,9 @@
   abrirBtn.addEventListener('click', () => {
     window.app.promptDiscordLogin()
   })
+
+  window.app.handleDiscordLogin(async () => {
+    var body = JSON.stringify(await window.discord.getUser(), 0, 3)
+    document.write(body)
+  })
 </script>
