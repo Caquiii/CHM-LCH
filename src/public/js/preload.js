@@ -1,5 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
+contextBridge.exposeInMainWorld('launcher', {
+  launch: () => ipcRenderer.invoke('launcher:launch'),
+})
+
 contextBridge.exposeInMainWorld('discord', {
   getUser: () => ipcRenderer.invoke('discord:getUser'),
   promptLogin: () => ipcRenderer.invoke('discord:promptLogin'),

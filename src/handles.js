@@ -1,5 +1,5 @@
 const { ipcMain, app } = require('electron')
-const { Windows, Discord, Authentication } = require('./services')
+const { Windows, Discord, Authentication, Launcher } = require('./services')
 
 ipcMain.handle('app:close', () => app.exit())
 ipcMain.handle('app:minimize', () => Windows.mainWindow.minimize())
@@ -42,4 +42,8 @@ ipcMain.handle('discord:promptLogin', () => {
 
 ipcMain.handle('discord:getUser', async () => {
   return await Discord.getUserData()
+})
+
+ipcMain.handle('launcher:launch', async () => {
+  await Launcher.checkJava()
 })

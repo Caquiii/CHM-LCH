@@ -17,5 +17,6 @@ app.once('ready', async () => {
     return console.log('No access_token or refresh_token, prompt login!')
   }
 
+  Windows.mainWindow.loadFile(Windows.viewsPath + '/launcher.html')
   await Discord.saveAuthData(authData)
 })
