@@ -5,3 +5,7 @@
 .movable {
   -webkit-app-region: drag;
 }
+
+.unmovable {
+  -webkit-app-region: no-drag;
+}
