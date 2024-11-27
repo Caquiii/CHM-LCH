@@ -1,8 +1,20 @@
 const superagent = require('superagent')
 
-class AuthenticationService {
+class ApiService {
   constructor(uri) {
     this.ApiUri = uri
+  }
+
+  async getModpackInfo(id) {
+    var endpoint = this.ApiUri + 'modpack/' + id
+    var response = await superagent
+      .get(endpoint)
+      .ok((res) => res.status < 500)
+      .catch((err) => console.log(err))
+
+    if (response.status == 200) {
+      return response.body
+    }
   }
 
   async exchange_code(code) {
@@ -39,4 +51,4 @@ class AuthenticationService {
   }
 }
 
-module.exports = AuthenticationService
+module.exports = ApiService

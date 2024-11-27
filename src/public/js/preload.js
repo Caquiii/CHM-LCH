@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('launcher', {
-  launch: () => ipcRenderer.invoke('launcher:launch'),
+  launch: (currentModpack) => ipcRenderer.invoke('launcher:launch', currentModpack),
 })
 
 contextBridge.exposeInMainWorld('discord', {

@@ -1,6 +1,6 @@
 const { app } = require('electron')
 
-const { Windows, Authentication, Discord } = require('./services')
+const { Windows, API, Discord } = require('./services')
 
 app.once('ready', async () => {
   Windows.createMainWindow()
@@ -12,7 +12,7 @@ app.once('ready', async () => {
     return console.log('No access_token or refresh_token, prompt login!')
   }
 
-  var authData = await Authentication.refresh_token(refresh_token)
+  var authData = await API.refresh_token(refresh_token)
   if (!authData.access_token) {
     return console.log('No access_token or refresh_token, prompt login!')
   }

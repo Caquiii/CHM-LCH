@@ -1,5 +1,5 @@
 const { ipcMain, app } = require('electron')
-const { Windows, Discord, Authentication, Launcher } = require('./services')
+const { Windows, Discord, API, Launcher } = require('./services')
 
 ipcMain.handle('app:close', () => app.exit())
 ipcMain.handle('app:minimize', () => Windows.mainWindow.minimize())
@@ -18,7 +18,7 @@ ipcMain.handle('discord:promptLogin', () => {
     resizable: false,
   })
   discWin.removeMenu()
-  discWin.loadURL(Authentication.ApiUri + 'discord/redirect')
+  discWin.loadURL(API.ApiUri + 'discord/redirect')
 
   discWin.webContents.session.webRequest.onBeforeRequest((details, callback) => {
     if (details.url.includes('/auth/conditional/start')) {
@@ -32,7 +32,7 @@ ipcMain.handle('discord:promptLogin', () => {
     var queryParams = new URL(url).searchParams
     var code = queryParams.get('code')
 
-    var authData = await Authentication.exchange_code(code)
+    var authData = await API.exchange_code(code)
     await Discord.saveAuthData(authData)
 
     discWin.close()
@@ -44,6 +44,6 @@ ipcMain.handle('discord:getUser', async () => {
   return await Discord.getUserData()
 })
 
-ipcMain.handle('launcher:launch', async () => {
-  await Launcher.checkJava()
+ipcMain.handle('launcher:launch', async (e, currentModpack) => {
+  await Launcher.launch(currentModpack)
 })
